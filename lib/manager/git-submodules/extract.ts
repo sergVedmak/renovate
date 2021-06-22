@@ -2,7 +2,7 @@ import URL from 'url';
 import Git, { SimpleGit } from 'simple-git';
 import upath from 'upath';
 import { getGlobalConfig } from '../../config/global';
-import * as datasourceGitRefs from '../../datasource/git-refs';
+import { GitRefsDatasource } from '../../datasource/git-refs';
 import { logger } from '../../logger';
 import { getHttpUrl, getRemoteUrlWithToken } from '../../util/git/url';
 import type { ExtractConfig, PackageFile } from '../types';
@@ -126,5 +126,5 @@ export default async function extractPackageFile(
     }
   }
 
-  return { deps, datasource: datasourceGitRefs.id };
+  return { deps, datasource: GitRefsDatasource.id };
 }
