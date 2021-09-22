@@ -1,9 +1,10 @@
 import { cache } from '../../util/cache/package/decorator';
 import * as semver from '../../versioning/semver';
+import { Datasource } from '../datasource';
 import { GitDatasource } from '../git-refs/base';
 import type { DigestConfig, GetReleasesConfig, ReleaseResult } from '../types';
 
-export class GitTagsDatasource extends GitDatasource {
+export class GitTagsDatasource extends Datasource {
   static readonly id = 'git-tags';
 
   constructor() {
@@ -45,8 +46,8 @@ export class GitTagsDatasource extends GitDatasource {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async getDigest(
-    { lookupName }: Partial<DigestConfig>,
+  override async getDigest(
+    { lookupName }: DigestConfig,
     newValue?: string
   ): Promise<string | null> {
     const rawRefs = await GitDatasource.getRawRefs({ lookupName }, this.id);

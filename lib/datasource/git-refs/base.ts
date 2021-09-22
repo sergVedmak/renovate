@@ -1,12 +1,14 @@
 import simpleGit from 'simple-git';
 import { cache } from '../../util/cache/package/decorator';
 import { getRemoteUrlWithToken } from '../../util/git/url';
-import { Datasource } from '../datasource';
 import type { GetReleasesConfig } from '../types';
 import type { RawRefs } from './types';
 
+const refMatch = /(?<hash>.*?)\s+refs\/(?<type>.*?)\/(?<value>.*)/;
+const headMatch = /(?<hash>.*?)\s+HEAD/;
+
 // TODO: extract to a separate directory structure (#10532)
-export abstract class GitDatasource extends Datasource {
+export class GitDatasource {
   static id = 'git';
 
   @cache({
@@ -26,9 +28,6 @@ export abstract class GitDatasource extends Datasource {
     if (!lsRemote) {
       return null;
     }
-
-    const refMatch = /(?<hash>.*?)\s+refs\/(?<type>.*?)\/(?<value>.*)/;
-    const headMatch = /(?<hash>.*?)\s+HEAD/;
 
     const refs = lsRemote
       .trim()
